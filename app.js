@@ -1380,6 +1380,15 @@ window.addEventListener('pagehide', () => {
   gravarTudo();
 });
 
+/* Pede ao navegador para tratar o armazenamento como permanente: sem isso ele
+   pode descartar os dados do site quando o aparelho fica sem espaço, e no iPhone
+   depois de uma semana sem uso. Adicionar o app à tela de início ajuda também. */
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persisted()
+    .then(jaEh => jaEh || navigator.storage.persist())
+    .catch(() => { /* navegador sem suporte */ });
+}
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => { /* http:// local */ });
