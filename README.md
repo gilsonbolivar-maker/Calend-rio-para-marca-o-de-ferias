@@ -30,7 +30,9 @@ As células vêm em branco, esperando os nomes. Para **escrever ou trocar um nom
 **✎** ao lado dele (ou clique direto no nome) e escreva por cima. **＋ Adicionar
 colega** — o botão largo no alto da tabela, e também no fim da lista — cria uma célula
 nova, já com os três períodos, o campo de observações e tudo o mais; a tela rola até
-ela com o cursor no nome. O **✕** ao lado do nome remove o colega. Depois de mexer nos
+ela com o cursor no nome. O **✕** ao lado do nome remove a célula: em
+branco ela sai num toque, com o aviso **Desfazer** por alguns segundos; com nome,
+data ou observação, o app pergunta antes. Depois de mexer nos
 nomes, **Ordenar A–Z** põe a lista de volta em ordem — acentos e maiúsculas não
 atrapalham, e quem ainda está sem nome fica no fim.
 

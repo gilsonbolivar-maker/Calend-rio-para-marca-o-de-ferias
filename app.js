@@ -80,6 +80,11 @@ const el = {
   diaLimite: $('dia-limite'),
   diaGente: $('dia-gente'),
   fecharDia: $('btn-fechar-dia'),
+  confirmar: $('confirmar'),
+  confirmarTitulo: $('confirmar-titulo'),
+  confirmarTexto: $('confirmar-texto'),
+  btnConfirmar: $('btn-confirmar'),
+  btnCancelar: $('btn-cancelar'),
   sobre: $('sobre'),
   fecharSobre: $('btn-fechar-sobre'),
   pdf: $('btn-pdf'),
@@ -435,12 +440,30 @@ function montarPessoa(pessoa) {
   });
 
   artigo.querySelector('.pessoa-remover').addEventListener('click', () => {
-    const quem = pessoa.nome.trim() || 'este colega';
-    if (!confirm(`Remover ${quem} da tabela?`)) return;
-    definirPessoas(pessoas.filter(p => p !== pessoa));
-    if (!pessoas.length) definirPessoas([pessoaVazia('')]);
-    montarLista();
-    aoMudar();
+    const vazia = !pessoa.nome.trim() && !pessoa.obs.trim() &&
+      pessoa.periodos.every(f => !f.inicio && !f.fim);
+
+    const remover = () => {
+      const posicao = pessoas.indexOf(pessoa);
+      definirPessoas(pessoas.filter(p => p !== pessoa));
+      if (!pessoas.length) definirPessoas([pessoaVazia('')]);
+      montarLista();
+      aoMudar();
+
+      avisar('Célula removida.', () => {
+        const lista = pessoas.slice();
+        lista.splice(Math.min(posicao, lista.length), 0, pessoa);
+        definirPessoas(lista);
+        montarLista();
+        aoMudar();
+      });
+    };
+
+    /* Célula em branco sai na hora; com nome, data ou observação, pergunta. */
+    if (vazia) remover();
+    else perguntar('Remover célula',
+      'Remover ' + (pessoa.nome.trim() || 'esta célula') +
+      ' da tabela? As férias e as observações vão junto.', 'Remover', remover);
   });
 
   return artigo;
@@ -941,19 +964,21 @@ el.arquivo.addEventListener('change', async () => {
     const soUma = tudo ? null : saneado(dados && dados.pessoas);
     if (!tudo && !soUma) throw new Error('formato');
 
-    const pergunta = tudo
-      ? 'Substituir as tabelas das cinco equipes pelas do arquivo?'
-      : 'Substituir a tabela do Grupo ' + grupo + ' pela do arquivo?';
-    if (!confirm(pergunta)) return;
+    perguntar('Abrir arquivo',
+      tudo
+        ? 'Substituir as tabelas das cinco equipes pelas do arquivo? O que está guardado agora se perde.'
+        : 'Substituir a tabela do Grupo ' + grupo + ' pela do arquivo? O que está guardado agora se perde.',
+      'Substituir',
+      () => {
+        if (tudo) tabelas = tudo;
+        else definirPessoas(soUma);
+        pessoas = tabelas[grupo];
 
-    if (tudo) tabelas = tudo;
-    else definirPessoas(soUma);
-    pessoas = tabelas[grupo];
-
-    if (dados.ano) trocarAno(Number(dados.ano));
-    montarLista();
-    gravarTudo();
-    avisar(tudo ? 'Escala do arquivo carregada.' : 'Tabela do Grupo ' + grupo + ' carregada.');
+        if (dados.ano) trocarAno(Number(dados.ano));
+        montarLista();
+        gravarTudo();
+        avisar(tudo ? 'Escala do arquivo carregada.' : 'Tabela do Grupo ' + grupo + ' carregada.');
+      });
   } catch (e) {
     avisar('Não deu para ler esse arquivo.');
   }
@@ -1195,6 +1220,35 @@ el.diaJanela.addEventListener('click', ev => {
   if (ev.target === el.diaJanela) fecharJanela(el.diaJanela);
 });
 
+/* ————————————————— confirmação ————————————————— */
+
+/* O confirm() do navegador é frágil no celular: o primeiro toque costuma só
+   fechar o teclado, e o Chrome deixa a pessoa bloquear novos diálogos. Esta
+   janela é do próprio app. */
+let aoConfirmar = null;
+
+function perguntar(titulo, texto, rotulo, acao) {
+  el.confirmarTitulo.textContent = titulo;
+  el.confirmarTexto.textContent = texto;
+  el.btnConfirmar.textContent = rotulo;
+  aoConfirmar = acao;
+  abrirJanela(el.confirmar);
+}
+
+function encerrarPergunta(confirmou) {
+  const acao = aoConfirmar;
+  aoConfirmar = null;
+  fecharJanela(el.confirmar);
+  if (confirmou && acao) acao();
+}
+
+el.btnConfirmar.addEventListener('click', () => encerrarPergunta(true));
+el.btnCancelar.addEventListener('click', () => encerrarPergunta(false));
+el.confirmar.addEventListener('click', ev => {
+  if (ev.target === el.confirmar) encerrarPergunta(false);
+});
+el.confirmar.addEventListener('close', () => { aoConfirmar = null; });
+
 /* ————————————————— janela "sobre" ————————————————— */
 
 el.info.addEventListener('click', () => {
@@ -1247,11 +1301,30 @@ function comecaPeloDia() {
 }
 
 let temporizadorAviso = 0;
-function avisar(texto) {
+
+function esconderAviso() {
+  clearTimeout(temporizadorAviso);
+  el.toast.hidden = true;
+}
+
+function avisar(texto, desfazer) {
   el.toast.textContent = texto;
+
+  if (desfazer) {
+    const botao = document.createElement('button');
+    botao.type = 'button';
+    botao.className = 'desfazer';
+    botao.textContent = 'Desfazer';
+    botao.addEventListener('click', () => {
+      esconderAviso();
+      desfazer();
+    });
+    el.toast.append(botao);
+  }
+
   el.toast.hidden = false;
   clearTimeout(temporizadorAviso);
-  temporizadorAviso = setTimeout(() => { el.toast.hidden = true; }, 2600);
+  temporizadorAviso = setTimeout(esconderAviso, desfazer ? 7000 : 2600);
 }
 
 /* Fechar a página sem perder o que acabou de ser digitado. */

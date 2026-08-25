@@ -148,6 +148,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 }
 .botao:active { transform: translateY(1px); }
 .botao.principal { background: var(--acento); border-color: var(--acento); color: #201400; }
+.botao.perigo { background: var(--perigo); border-color: var(--perigo); color: #fff; }
 .botao.discreto { background: transparent; color: var(--texto-fraco); }
 .botao.discreto:hover { color: var(--texto); border-color: var(--acento); }
 .botao.largo { display: block; width: 100%; margin-top: var(--gap); }
@@ -158,6 +159,8 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 
 .remover {
   appearance: none;
+  min-width: 38px;
+  min-height: 38px;
   border: 1px solid transparent;
   background: transparent;
   color: var(--texto-fraco);
@@ -659,6 +662,9 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 }
 .dia-gente li.so-um { border-left-color: var(--perigo); }
 
+.confirmar-acoes { display: flex; gap: 10px; margin-top: 18px; }
+.confirmar-acoes .botao { flex: 1; }
+
 /* crédito discreto no pé — na tela e no papel */
 .credito {
   max-width: 980px;
@@ -703,6 +709,19 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   font-size: 14px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .45);
+}
+.aviso .desfazer {
+  appearance: none;
+  margin-left: 10px;
+  border: 1px solid var(--acento);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--acento);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 12px;
+  cursor: pointer;
 }
 
 /* ——— tela larga: vira tabela de verdade ——— */
