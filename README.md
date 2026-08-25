@@ -1,4 +1,4 @@
-# Escala de Férias — Turnos A a E
+# Tabela para marcação de férias
 
 Marcação de férias das cinco equipes de turno. **Cada turno tem a sua tabela**, com
 **três períodos por colega**, um espaço de observações para cada um e, embaixo de
@@ -12,8 +12,9 @@ sem servidor. Depois da primeira visita ela abre offline.
 
 Comece escolhendo o **turno** nos botões **A B C D E**, no alto da página. Cada um
 tem a sua lista de colegas, as suas férias e as suas folgas; trocar de turno troca a
-tabela inteira, e nada se mistura. O Grupo A já vem com os nomes da equipe; os outros
-começam em branco, prontos para receber gente com **＋ Adicionar colega**.
+tabela inteira, e nada se mistura. Todos começam com **cinco células em branco**, e
+**＋ Adicionar colega** — no alto da tabela e no fim da lista — cria quantas mais
+precisar.
 
 1. Cada colega tem **três períodos** — 1º, 2º e 3º. Marque **início** e **fim**
    nos que precisar; quem tira as férias de uma vez usa só o primeiro.
@@ -25,8 +26,7 @@ começam em branco, prontos para receber gente com **＋ Adicionar colega**.
 4. Use o campo de **observações** para o que precisar ficar registrado — troca de
    plantão, emenda com feriado, preferência de mês.
 
-O grupo já vem preenchido com os nomes da equipe, **em ordem alfabética**, e o
-cabeçalho traz a supervisora responsável. Para **trocar um nome**, toque no lápis
+As células vêm em branco, esperando os nomes. Para **escrever ou trocar um nome**, toque no lápis
 **✎** ao lado dele (ou clique direto no nome) e escreva por cima. **＋ Adicionar
 colega** — o botão largo no alto da tabela, e também no fim da lista — cria uma célula
 nova, já com os três períodos, o campo de observações e tudo o mais; a tela rola até
@@ -163,9 +163,6 @@ que o navegador recebe.
 
 Desenvolvido por **Gilson Bolivar**. O crédito aparece no botão **ⓘ**, no alto da
 página, e no pé da tabela impressa.
-
-A tabela guardada pelo app anterior (só do Grupo A) é aproveitada na primeira visita:
-ela entra como a tabela do turno A.
 
 A escala de turnos usada para marcar as folgas do Grupo A vem do app Escala de
 Turnos (INB).

@@ -1,6 +1,6 @@
 {
-  "name": "Escala de Férias — Turnos A a E",
-  "short_name": "Escala Férias",
+  "name": "Tabela para marcação de férias",
+  "short_name": "Marcar Férias",
   "description": "Marcação de férias dos turnos A a E: três períodos por colega, com o quadro do mês e as folgas de cada equipe.",
   "lang": "pt-BR",
   "dir": "ltr",

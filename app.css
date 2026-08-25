@@ -84,6 +84,18 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 }
 .titulo { min-width: 0; }
 .topo h1 { font-size: 20px; }
+.topo h1 span {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 9px;
+  border-radius: 99px;
+  background: var(--superficie-alta);
+  border: 1px solid var(--borda);
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--acento);
+  vertical-align: 3px;
+}
 .estado { margin: 0; font-size: 13px; color: var(--texto-fraco); text-align: right; }
 .canto { display: flex; align-items: center; gap: 10px; flex: none; }
 .info {
@@ -748,7 +760,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   }
   .comandos, .aviso, .dica, .remover, .acoes-lista, .duracao, .info,
   .destaque { display: none !important; }
-  h1 span { color: var(--texto); }
+  h1 span { color: var(--texto); background: none; border: 0; }
   .credito { padding: 12px 0 0; border-top: 1px solid var(--borda); }
   .folha { max-width: none; padding: 0; }
   .topo { padding: 0 0 10px; }

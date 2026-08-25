@@ -10,25 +10,16 @@ const CHAVE_DADOS = 'escala-ferias:grupos';
 const CHAVE_ANO = 'escala-ferias:ano';
 const CHAVE_TEMA = 'escala-ferias:tema';
 const CHAVE_GRUPO = 'escala-ferias:grupo';
-const CHAVE_ANTIGA = 'tabela-de-ferias:dados';   /* tabela do app anterior, só do Grupo A */
 
-/* Grupo inicial, em ordem alfabética. Os nomes são editáveis na própria
-   tabela — isto é só o ponto de partida de quem abre o app pela primeira vez. */
-const GRUPO = [
-  'Alvaro Lima',
-  'Amauri Bernardes',
-  'Bruno Enzo',
-  'Celia Fernandes',
-  'Erlan Coutinho',
-  'Etelvino Loureço',
-  'Fernanda Lima',
-  'Gilson Bolivar',
-  'Heleno Brito',
-  'Hemerson',
-  'Karla Neves',
-  'Marivaldo Brito',
-  'Tiago Fraga'
+/* Nomes que o app trazia prontos no começo. Ficam aqui só para reconhecer uma
+   tabela que ninguém tocou e trocá-la pelas células em branco. */
+const SEMENTE_ANTIGA = [
+  'Alvaro Lima', 'Amauri Bernardes', 'Bruno Enzo', 'Celia Fernandes', 'Erlan Coutinho',
+  'Etelvino Loureço', 'Fernanda Lima', 'Gilson Bolivar', 'Heleno Brito', 'Hemerson',
+  'Karla Neves', 'Marivaldo Brito', 'Tiago Fraga'
 ];
+
+const CELULAS = 5;        // células em branco que cada turno traz prontas
 
 const DIAS_CLT = 30;      // teto de dias de férias por período aquisitivo
 const PERIODOS = 3;       // cada colega escolhe até três períodos
@@ -281,7 +272,16 @@ function completar(periodos) {
 }
 
 function grupoInicial() {
-  return GRUPO.map(nome => pessoaVazia(nome));
+  return Array.from({ length: CELULAS }, () => pessoaVazia(''));
+}
+
+/* Tabela que ainda está do jeito que veio: os nomes de fábrica e nada marcado. */
+function intocada(lista) {
+  if (!Array.isArray(lista) || lista.length !== SEMENTE_ANTIGA.length) return false;
+  return lista.every((p, i) =>
+    (p.nome || '').trim() === SEMENTE_ANTIGA[i] &&
+    !(p.obs || '').trim() &&
+    (p.periodos || []).every(f => !f.inicio && !f.fim));
 }
 
 function saneado(bruto) {
@@ -304,9 +304,7 @@ function saneado(bruto) {
    começam em branco, prontas para receber gente. */
 function tabelasVazias() {
   const tudo = {};
-  GRUPOS.forEach(g => {
-    tudo[g] = g === 'A' ? grupoInicial() : [pessoaVazia(''), pessoaVazia(''), pessoaVazia('')];
-  });
+  GRUPOS.forEach(g => { tudo[g] = grupoInicial(); });
   return tudo;
 }
 
@@ -317,14 +315,10 @@ function lerTabelas() {
   if (guardado && guardado.grupos) {
     GRUPOS.forEach(g => {
       const limpo = saneado(guardado.grupos[g]);
-      if (limpo) tudo[g] = limpo;
+      /* A lista de nomes que ninguém chegou a usar dá lugar às células em branco. */
+      if (limpo && !intocada(limpo)) tudo[g] = limpo;
     });
-    return tudo;
   }
-
-  /* Primeira visita: aproveita a tabela do app anterior, que era só do Grupo A. */
-  const antiga = saneado(ler(CHAVE_ANTIGA, null));
-  if (antiga) tudo.A = antiga;
   return tudo;
 }
 
@@ -941,7 +935,7 @@ el.arquivo.addEventListener('change', async () => {
     if (tudo) {
       GRUPOS.forEach(g => {
         const limpo = saneado(dados.grupos[g]);
-        tudo[g] = limpo || [pessoaVazia(''), pessoaVazia(''), pessoaVazia('')];
+        tudo[g] = limpo || grupoInicial();
       });
     }
     const soUma = tudo ? null : saneado(dados && dados.pessoas);
@@ -1025,9 +1019,9 @@ function montarGrupos() {
 }
 
 function nomearGrupo() {
-  el.grupoTitulo.textContent = 'do Grupo\u00A0' + grupo;
+  el.grupoTitulo.textContent = 'Grupo\u00A0' + grupo;
   el.grupoLegenda.textContent = grupo;
-  document.title = 'Escala de Férias — Grupo ' + grupo;
+  document.title = 'Tabela para marcação de férias — Grupo ' + grupo;
 }
 
 function trocarGrupo(novo) {
