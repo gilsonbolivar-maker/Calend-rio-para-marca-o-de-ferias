@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Escala de Férias — Turnos A a E</title>
+<meta name="description" content="Marcação de férias dos turnos A a E: três períodos por colega, com o quadro do mês e as folgas de cada equipe.">
+<meta name="theme-color" content="#0b1220">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Escala Férias">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone-192.png" sizes="192x192">
+<link rel="apple-touch-icon" sizes="180x180" href="icones/icone-180.png">
+<link rel="stylesheet" href="app.css">
+<script>
+  /* Aplica o tema salvo antes da primeira pintura; sem isto a tela pisca. */
+  (() => {
+    let tema;
+    try { tema = localStorage.getItem('tabela-de-ferias:tema'); } catch (e) { /* modo privado */ }
+    if (tema !== 'claro' && tema !== 'escuro') {
+      tema = matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'escuro';
+    }
+    document.documentElement.dataset.tema = tema;
+  })();
+</script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="titulo">
+    <h1>Escala de Férias <span id="grupo-titulo">do Grupo&nbsp;A</span></h1>
+  </div>
+  <div class="canto">
+    <p class="estado" id="estado" role="status" aria-live="polite">—</p>
+    <button class="info" id="btn-info" type="button" title="Sobre o app" aria-label="Sobre o app">i</button>
+  </div>
+</header>
+
+<dialog class="sobre dia-janela" id="dia-janela" aria-labelledby="dia-titulo">
+  <h2 id="dia-titulo">—</h2>
+  <p class="dia-turno" id="dia-turno">—</p>
+  <p class="dia-limite" id="dia-limite" hidden></p>
+  <ul class="dia-gente" id="dia-gente"></ul>
+  <button class="botao principal largo" id="btn-fechar-dia" type="button">Fechar</button>
+</dialog>
+
+<dialog class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+  <h2 id="sobre-titulo">Escala de Férias</h2>
+  <p class="sobre-credito">Desenvolvido por <b>Gilson Bolivar</b></p>
+  <p>Pedidos de férias dos turnos A a E: cada equipe tem a sua tabela, com três
+    períodos por colega, o quadro do mês escolhido, as folgas daquela equipe na
+    escala de turnos e os feriados.</p>
+  <p>A tabela fica guardada neste aparelho, no próprio navegador — ninguém mais
+    enxerga a sua. Para passar adiante, use <b>Salvar arquivo</b>, <b>Baixar CSV</b>
+    ou <b>Salvar PDF</b>.</p>
+  <button class="botao principal largo" id="btn-fechar-sobre" type="button">Entendi</button>
+</dialog>
+
+<main class="folha">
+
+  <!-- ————————————————— barra de comandos ————————————————— -->
+  <section class="comandos">
+    <div class="campo-grupo">
+      <span>Turno</span>
+      <div class="grupos" id="grupos" role="group" aria-label="Turno da equipe"></div>
+    </div>
+    <label class="campo-ano">
+      <span>Ano</span>
+      <select id="ano"></select>
+    </label>
+    <div class="botoes">
+      <button class="botao discreto" id="btn-tema" type="button" aria-pressed="false">Tema claro</button>
+      <button class="botao discreto" id="btn-pdf" type="button" title="Abre a impressão — escolha “Salvar como PDF” no destino">Salvar PDF</button>
+      <button class="botao discreto" id="btn-csv" type="button">Baixar CSV</button>
+      <button class="botao discreto" id="btn-salvar" type="button">Salvar arquivo</button>
+      <button class="botao discreto" id="btn-abrir" type="button">Abrir arquivo</button>
+      <input type="file" id="arquivo" accept="application/json,.json" hidden>
+    </div>
+  </section>
+
+  <p class="legenda">
+    <span><b class="amostra ferias"></b> férias marcadas</span>
+    <span><b class="amostra folga"></b> folga do Grupo <b id="grupo-legenda">A</b> na escala de turnos</span>
+    <span><b class="amostra ocupado"></b> marcada por um colega</span>
+    <span><b class="amostra varios"></b> duas pessoas — limite do grupo</span>
+    <span><b class="amostra excesso"></b> acima do limite</span>
+    <span><b class="amostra feriado"></b> feriado</span>
+  </p>
+
+  <button class="botao principal largo destaque" id="btn-colega-topo" type="button">
+    ＋ Adicionar colega
+  </button>
+
+  <!-- ————————————————— tabela ————————————————— -->
+  <div class="cabecalho" aria-hidden="true">
+    <span>Colega</span>
+    <span>Nº</span>
+    <span>Início</span>
+    <span>Fim</span>
+    <span>Dias</span>
+  </div>
+
+  <div class="lista" id="lista"></div>
+
+  <div class="acoes-lista">
+    <button class="botao discreto" id="btn-colega" type="button">＋ Adicionar colega</button>
+    <button class="botao discreto" id="btn-ordenar" type="button" title="Reordenar a lista de A a Z">Ordenar A–Z</button>
+  </div>
+
+  <!-- ————————————————— acima do limite ————————————————— -->
+  <section class="coincidencias excessos" id="excessos" hidden>
+    <h2>Acima do limite — só duas pessoas por data</h2>
+    <ul id="lista-excessos"></ul>
+  </section>
+
+  <!-- ————————————————— coincidências ————————————————— -->
+  <section class="coincidencias" id="coincidencias" hidden>
+    <h2>Quem coincide com quem</h2>
+    <ul id="lista-coincidencias"></ul>
+  </section>
+
+  <!-- ————————————————— mapa do ano ————————————————— -->
+  <section class="ano">
+    <h2>Mapa do ano <span id="ano-titulo"></span></h2>
+    <p class="rolagem-dica">Deslize para o lado para ver o ano inteiro.</p>
+    <div class="rolagem">
+      <div class="moldura">
+        <div class="meses" id="meses"></div>
+        <div class="faixas" id="faixas"></div>
+      </div>
+    </div>
+    <p class="vazio" id="ano-vazio">Nenhum período marcado ainda neste ano.</p>
+  </section>
+</main>
+
+<template id="modelo-pessoa">
+  <article class="pessoa">
+    <div class="identidade">
+      <input class="nome" type="text" maxlength="60" aria-label="Nome do colega" placeholder="Nome do colega">
+      <button class="remover nome-editar" type="button" title="Editar o nome" aria-label="Editar o nome">✎</button>
+      <p class="total"><b>0</b> dias</p>
+      <button class="remover pessoa-remover" type="button" title="Remover colega" aria-label="Remover colega">✕</button>
+    </div>
+    <div class="corpo">
+      <ol class="periodos"></ol>
+      <div class="rodape">
+        <textarea class="obs" rows="1" aria-label="Observações"
+                  placeholder="Observações — emenda com feriado, troca de plantão…"></textarea>
+      </div>
+    </div>
+  </article>
+</template>
+
+<template id="modelo-periodo">
+  <li class="periodo">
+    <b class="ordem"></b>
+    <label class="campo-data de"><span>Início</span><input type="date" class="inicio"><b class="valor"></b></label>
+    <label class="campo-data ate"><span>Fim</span><input type="date" class="fim"><b class="valor"></b></label>
+    <span class="dias">—</span>
+    <button class="remover periodo-limpar" type="button" title="Limpar este período" aria-label="Limpar este período">✕</button>
+    <div class="duracao" role="group" aria-label="Duração do período">
+      <span>Duração</span>
+      <button type="button" data-dias="10">10 dias</button>
+      <button type="button" data-dias="15">15 dias</button>
+      <button type="button" data-dias="30">30 dias</button>
+    </div>
+    <p class="erro" hidden></p>
+    <div class="quadro" hidden></div>
+  </li>
+</template>
+
+<p class="credito">Desenvolvido por Gilson Bolivar</p>
+
+<div class="aviso" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

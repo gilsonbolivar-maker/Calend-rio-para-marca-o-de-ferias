@@ -1,0 +1,27 @@
+# Publica a Escala de Férias no GitHub Pages a cada push na main.
+#
+# O Pages deste repositório está ligado no modo clássico, servindo a branch
+# gh-pages. Este workflow só copia a main para lá: é o próprio GitHub que
+# constrói e publica em seguida.
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Levar a main para a gh-pages
+        run: git push --force origin HEAD:gh-pages

@@ -1,0 +1,19 @@
+{
+  "name": "Escala de Férias — Turnos A a E",
+  "short_name": "Escala Férias",
+  "description": "Marcação de férias dos turnos A a E: três períodos por colega, com o quadro do mês e as folgas de cada equipe.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "id": "escala-de-ferias",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "categories": ["productivity", "business", "utilities"],
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icones/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
