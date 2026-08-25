@@ -67,6 +67,7 @@ const el = {
   grupos: $('grupos'),
   grupoTitulo: $('grupo-titulo'),
   grupoLegenda: $('grupo-legenda'),
+  supervisor: $('supervisor'),
   anoTitulo: $('ano-titulo'),
   lista: $('lista'),
   novoColega: $('btn-colega'),
@@ -314,6 +315,16 @@ function tabelasVazias() {
   return tudo;
 }
 
+function lerSupervisores() {
+  const guardado = ler(CHAVE_DADOS, null);
+  const nomes = {};
+  GRUPOS.forEach(g => {
+    const nome = guardado && guardado.supervisores && guardado.supervisores[g];
+    nomes[g] = typeof nome === 'string' ? nome.slice(0, 60) : '';
+  });
+  return nomes;
+}
+
 function lerTabelas() {
   const guardado = ler(CHAVE_DADOS, null);
   const tudo = tabelasVazias();
@@ -329,6 +340,7 @@ function lerTabelas() {
 }
 
 let tabelas = lerTabelas();
+let supervisores = lerSupervisores();
 let grupo = GRUPOS.includes(ler(CHAVE_GRUPO, '')) ? ler(CHAVE_GRUPO, '') : 'A';
 let pessoas = tabelas[grupo];
 let ano = Number(ler(CHAVE_ANO, 0)) || new Date().getFullYear();
@@ -339,8 +351,13 @@ function definirPessoas(lista) {
 }
 
 function gravarTudo() {
-  gravar(CHAVE_DADOS, { versao: 2, grupos: tabelas });
+  gravar(CHAVE_DADOS, { versao: 2, grupos: tabelas, supervisores: supervisores });
 }
+
+el.supervisor.addEventListener('input', () => {
+  supervisores[grupo] = el.supervisor.value;
+  agendarGravacao();
+});
 
 /* ————————————————— montagem da tabela ————————————————— */
 
@@ -939,7 +956,8 @@ el.csv.addEventListener('click', () => {
 });
 
 el.salvar.addEventListener('click', () => {
-  const dados = { app: 'escala-de-ferias', versao: 2, ano: ano, grupo: grupo, grupos: tabelas };
+  const dados = { app: 'escala-de-ferias', versao: 2, ano: ano, grupo: grupo,
+                  grupos: tabelas, supervisores: supervisores };
   baixar('escala-de-ferias-' + ano + '.json', JSON.stringify(dados, null, 2), 'application/json');
   avisar('Arquivo salvo. Envie para quem precisa da tabela.');
 });
@@ -974,6 +992,14 @@ el.arquivo.addEventListener('change', async () => {
         if (tudo) tabelas = tudo;
         else definirPessoas(soUma);
         pessoas = tabelas[grupo];
+
+        if (dados.supervisores) {
+          GRUPOS.forEach(g => {
+            const nome = dados.supervisores[g];
+            if (typeof nome === 'string') supervisores[g] = nome.slice(0, 60);
+          });
+          el.supervisor.value = supervisores[grupo] || '';
+        }
 
         if (dados.ano) trocarAno(Number(dados.ano));
         montarLista();
@@ -1066,6 +1092,7 @@ function montarGrupos() {
 function nomearGrupo() {
   el.grupoTitulo.textContent = 'Grupo\u00A0' + grupo;
   el.grupoLegenda.textContent = grupo;
+  el.supervisor.value = supervisores[grupo] || '';
   document.title = 'Tabela para marcação de férias — Grupo ' + grupo;
 }
 
@@ -1076,7 +1103,7 @@ function trocarGrupo(novo) {
 
   grupo = novo;
   pessoas = tabelas[grupo];
-  try { localStorage.setItem(CHAVE_GRUPO, grupo); } catch (e) { /* modo privado */ }
+  gravar(CHAVE_GRUPO, grupo);
 
   montarGrupos();
   nomearGrupo();

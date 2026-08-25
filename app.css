@@ -96,6 +96,25 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   color: var(--acento);
   vertical-align: 3px;
 }
+.supervisor {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: var(--texto-fraco);
+}
+.supervisor input {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--texto);
+  font: inherit;
+  font-weight: 600;
+  padding: 2px 6px;
+  min-width: 90px;
+  max-width: 220px;
+}
+.supervisor input::placeholder { font-weight: 400; color: var(--texto-fraco); }
+.supervisor input:hover { border-color: var(--borda); }
+.supervisor input:focus { outline: none; border-color: var(--acento); background: var(--fundo); }
 .estado { margin: 0; font-size: 13px; color: var(--texto-fraco); text-align: right; }
 .canto { display: flex; align-items: center; gap: 10px; flex: none; }
 .info {
@@ -780,6 +799,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   .comandos, .aviso, .dica, .remover, .acoes-lista, .duracao, .info,
   .destaque { display: none !important; }
   h1 span { color: var(--texto); background: none; border: 0; }
+  .supervisor input { border-color: transparent; padding-left: 2px; }
   .credito { padding: 12px 0 0; border-top: 1px solid var(--borda); }
   .folha { max-width: none; padding: 0; }
   .topo { padding: 0 0 10px; }

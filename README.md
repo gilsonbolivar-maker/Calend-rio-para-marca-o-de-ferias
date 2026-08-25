@@ -10,6 +10,9 @@ sem servidor. Depois da primeira visita ela abre offline.
 
 ## Como usar
 
+Abaixo do título há a linha **Para Supervisor(a)**: escreva ali quem recebe a
+tabela — cada turno guarda o seu, e o nome sai no papel e no PDF.
+
 Comece escolhendo o **turno** nos botões **A B C D E**, no alto da página. Cada um
 tem a sua lista de colegas, as suas férias e as suas folgas; trocar de turno troca a
 tabela inteira, e nada se mistura. Todos começam com **três células em branco**, e
