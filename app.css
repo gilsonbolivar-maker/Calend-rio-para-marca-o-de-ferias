@@ -221,7 +221,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   height: 14px;
   border-radius: 4px;
   vertical-align: -3px;
-  margin-right: 5px;
+  margin-right: 7px;
   border: 2px solid transparent;
 }
 .legenda span { display: inline-flex; align-items: center; }
