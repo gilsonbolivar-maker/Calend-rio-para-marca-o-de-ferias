@@ -12,9 +12,11 @@ sem servidor. Depois da primeira visita ela abre offline.
 
 Comece escolhendo o **turno** nos botões **A B C D E**, no alto da página. Cada um
 tem a sua lista de colegas, as suas férias e as suas folgas; trocar de turno troca a
-tabela inteira, e nada se mistura. Todos começam com **cinco células em branco**, e
+tabela inteira, e nada se mistura. Todos começam com **três células em branco**, e
 **＋ Adicionar colega** — no alto da tabela e no fim da lista — cria quantas mais
-precisar.
+precisar. **Limpar tabela**, ao lado, apaga tudo do turno aberto e devolve as células
+em branco; os outros turnos não são tocados, e o aviso deixa **Desfazer** por alguns
+segundos.
 
 1. Cada colega tem **três períodos** — 1º, 2º e 3º. Marque **início** e **fim**
    nos que precisar; quem tira as férias de uma vez usa só o primeiro.

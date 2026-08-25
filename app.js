@@ -19,7 +19,7 @@ const SEMENTE_ANTIGA = [
   'Karla Neves', 'Marivaldo Brito', 'Tiago Fraga'
 ];
 
-const CELULAS = 5;        // células em branco que cada turno traz prontas
+const CELULAS = 3;        // células em branco que cada turno traz prontas
 
 const DIAS_CLT = 30;      // teto de dias de férias por período aquisitivo
 const PERIODOS = 3;       // cada colega escolhe até três períodos
@@ -72,6 +72,7 @@ const el = {
   novoColega: $('btn-colega'),
   novoColegaTopo: $('btn-colega-topo'),
   ordenar: $('btn-ordenar'),
+  limpar: $('btn-limpar'),
   tema: $('btn-tema'),
   info: $('btn-info'),
   diaJanela: $('dia-janela'),
@@ -1023,6 +1024,25 @@ function acrescentarColega() {
   nome.focus();
   avisar('Colega novo — escreva o nome. Os três períodos já estão prontos.');
 }
+
+/* Zera a tabela do turno aberto: volta às células em branco. */
+el.limpar.addEventListener('click', () => {
+  const anterior = pessoas.slice();
+  perguntar('Limpar a tabela do Grupo ' + grupo,
+    'Apagar os nomes, as férias e as observações deste turno e voltar às ' +
+    CELULAS + ' células em branco? Os outros turnos não são tocados.',
+    'Limpar',
+    () => {
+      definirPessoas(grupoInicial());
+      montarLista();
+      aoMudar();
+      avisar('Tabela do Grupo ' + grupo + ' limpa.', () => {
+        definirPessoas(anterior);
+        montarLista();
+        aoMudar();
+      });
+    });
+});
 
 el.novoColega.addEventListener('click', acrescentarColega);
 el.novoColegaTopo.addEventListener('click', acrescentarColega);
