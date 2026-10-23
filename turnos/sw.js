@@ -3,7 +3,7 @@
    ———————————————————————————————————————————————————————————— */
 'use strict';
 
-const VERSAO = '1.2.0';
+const VERSAO = '1.3.0';
 const CACHE = 'escala-turnos-' + VERSAO;
 
 const ARQUIVOS = [

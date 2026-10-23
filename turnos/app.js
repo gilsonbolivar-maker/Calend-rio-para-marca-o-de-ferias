@@ -6,7 +6,7 @@
 
 (() => {
 
-const VERSAO = '1.2.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
+const VERSAO = '1.3.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
 const VERSAO_DATA = '23/10/2026';
 
 const CHAVE_TURNO = 'escala-turnos:meu';
@@ -124,6 +124,13 @@ const el = {
   sobre: $('sobre'),
   fecharSobre: $('btn-fechar-sobre'),
   toast: $('toast'),
+  escolher: $('btn-escolher'),
+  seletor: $('seletor'),
+  anoValor: $('ano-valor'),
+  anoMenos: $('ano-menos'),
+  anoMais: $('ano-mais'),
+  mesesGrade: $('meses-grade'),
+  fecharSeletor: $('btn-fechar-seletor'),
   versao: $('versao'),
   versaoRodape: $('versao-rodape')
 };
@@ -374,6 +381,41 @@ function andarMes(passos) {
   mes = new Date(mes.getFullYear(), mes.getMonth() + passos, 1);
   montarQuadro();
 }
+
+/* Escolher mês e ano direto: o ciclo é calculado, então qualquer data serve —
+   para trás ou para frente, sem limite. */
+let anoEscolhido = 0;
+
+function desenharSeletor() {
+  el.anoValor.textContent = anoEscolhido;
+  el.mesesGrade.textContent = '';
+  MESES.forEach((nome, i) => {
+    const botao = document.createElement('button');
+    botao.type = 'button';
+    botao.textContent = nome.slice(0, 3);
+    botao.title = nome + ' de ' + anoEscolhido;
+    botao.className =
+      (anoEscolhido === mes.getFullYear() && i === mes.getMonth() ? 'aberto' : '') +
+      (anoEscolhido === hoje.getFullYear() && i === hoje.getMonth() ? ' atual' : '');
+    botao.addEventListener('click', () => {
+      mes = new Date(anoEscolhido, i, 1);
+      fechar(el.seletor);
+      montarQuadro();
+    });
+    el.mesesGrade.append(botao);
+  });
+}
+
+el.escolher.addEventListener('click', () => {
+  anoEscolhido = mes.getFullYear();
+  desenharSeletor();
+  abrir(el.seletor);
+});
+
+el.anoMenos.addEventListener('click', () => { anoEscolhido--; desenharSeletor(); });
+el.anoMais.addEventListener('click', () => { anoEscolhido++; desenharSeletor(); });
+el.fecharSeletor.addEventListener('click', () => fechar(el.seletor));
+el.seletor.addEventListener('click', ev => { if (ev.target === el.seletor) fechar(el.seletor); });
 
 el.anterior.addEventListener('click', () => andarMes(-1));
 el.proximo.addEventListener('click', () => andarMes(1));

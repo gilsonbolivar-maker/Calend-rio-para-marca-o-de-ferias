@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icones/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" sizes="180x180" href="icones/icone-180.png">
-<link rel="stylesheet" href="app.css?v=1.2.0">
+<link rel="stylesheet" href="app.css?v=1.3.0">
 <script>
   /* Tema aplicado antes da primeira pintura, para a tela não piscar. */
   (() => {
@@ -56,7 +56,8 @@
   <!-- ————————————————— mês ————————————————— -->
   <section class="mes-barra">
     <button class="botao discreto" id="btn-anterior" type="button" aria-label="Mês anterior">‹</button>
-    <h2 id="mes-nome">—</h2>
+    <h2><button class="mes-escolher" id="btn-escolher" type="button"
+                title="Escolher mês e ano"><span id="mes-nome">—</span> ▾</button></h2>
     <button class="botao discreto" id="btn-proximo" type="button" aria-label="Próximo mês">›</button>
     <button class="botao discreto" id="btn-hoje" type="button">Hoje</button>
   </section>
@@ -81,6 +82,17 @@
 
 </main>
 
+<dialog class="sobre seletor" id="seletor" aria-labelledby="seletor-titulo">
+  <h2 id="seletor-titulo">Escolher mês</h2>
+  <div class="ano-linha">
+    <button class="botao discreto" id="ano-menos" type="button" aria-label="Ano anterior">‹</button>
+    <b id="ano-valor">—</b>
+    <button class="botao discreto" id="ano-mais" type="button" aria-label="Próximo ano">›</button>
+  </div>
+  <div class="meses-grade" id="meses-grade"></div>
+  <button class="botao discreto largo" id="btn-fechar-seletor" type="button">Cancelar</button>
+</dialog>
+
 <dialog class="sobre" id="sobre" aria-labelledby="sobre-titulo">
   <h2 id="sobre-titulo">Escala de Turnos</h2>
   <p class="sobre-credito">Desenvolvido por <b>Gilson Bolivar</b></p>
@@ -96,6 +108,6 @@
 
 <div class="aviso" id="toast" hidden></div>
 
-<script src="app.js?v=1.2.0"></script>
+<script src="app.js?v=1.3.0"></script>
 </body>
 </html>

@@ -24,7 +24,10 @@ por equipe e um dia por coluna, e abre já centralizado no dia de hoje. Girar o
 aparelho troca o desenho sozinho.
 
 Para mudar de mês: as setas **‹ ›**, o botão **Hoje**, as setas do teclado ou um
-arraste para o lado.
+arraste para o lado. Tocando no **nome do mês** abre o seletor, com os doze meses e
+as setas de ano — dá para ir a qualquer mês, de qualquer ano, para frente ou para
+trás. Não há limite: a escala é calculada pelo ciclo, não uma tabela guardada, e o
+cálculo vale igual em 1990 ou em 2090.
 
 ## A escala
 
@@ -55,8 +58,8 @@ icones/               ícones 180, 192, 512 e maskable
 
 ## Versão
 
-A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **1.2.0**. O mesmo
-número vai no endereço do CSS e do JavaScript (`app.js?v=1.2.0`) e no nome do cache do
+A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **1.3.0**. O mesmo
+número vai no endereço do CSS e do JavaScript (`app.js?v=1.3.0`) e no nome do cache do
 service worker, então cada versão nova chega inteira ao aparelho, sem sobra da
 anterior. Ao mexer no app, suba o número nos três lugares: `VERSAO` no `app.js`,
 `VERSAO` no `sw.js` e o `?v=` no `index.html`.
