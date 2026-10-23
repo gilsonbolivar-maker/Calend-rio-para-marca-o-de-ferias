@@ -117,6 +117,14 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 .supervisor input:focus { outline: none; border-color: var(--acento); background: var(--fundo); }
 .estado { margin: 0; font-size: 13px; color: var(--texto-fraco); text-align: right; }
 .canto { display: flex; align-items: center; gap: 10px; flex: none; }
+.instalar {
+  padding: 8px 14px;
+  font-size: 14px;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: #201400;
+}
+.instalar-nota { padding-top: 10px; border-top: 1px solid var(--borda); }
 .info {
   appearance: none;
   flex: none;
@@ -147,6 +155,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 
 @media (max-width: 560px) {
   :root { --coluna-nome: 120px; }
+  .instalar { padding: 7px 11px; font-size: 13px; }
   .topo { flex-direction: column; align-items: stretch; gap: 4px; }
   .canto { justify-content: space-between; }
   .estado { text-align: left; }

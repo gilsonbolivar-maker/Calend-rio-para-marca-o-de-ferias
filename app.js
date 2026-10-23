@@ -6,7 +6,7 @@
 
 (() => {
 
-const VERSAO = '2.4.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
+const VERSAO = '2.5.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
 const VERSAO_DATA = '23/10/2026';
 
 const CHAVE_DADOS = 'escala-ferias:grupos';
@@ -79,6 +79,11 @@ const el = {
   limpar: $('btn-limpar'),
   tema: $('btn-tema'),
   info: $('btn-info'),
+  instalar: $('btn-instalar'),
+  ajudaInstalar: $('ajuda-instalar'),
+  passosAndroid: $('passos-android'),
+  passosIos: $('passos-ios'),
+  fecharInstalar: $('btn-fechar-instalar'),
   diaJanela: $('dia-janela'),
   diaTitulo: $('dia-titulo'),
   diaTurno: $('dia-turno'),
@@ -1385,6 +1390,51 @@ window.addEventListener('pagehide', () => {
   gravarTudo();
 });
 
+/* ————————————————— instalar no aparelho ————————————————— */
+
+/* O iPhone não dispara o convite de instalação: lá o caminho é o menu
+   Compartilhar do Safari. Por isso o botão é nosso e sempre aparece —
+   com o convite do navegador quando existe, com o passo a passo quando não. */
+const noIphone = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+function jaInstalado() {
+  return matchMedia('(display-mode: standalone)').matches ||
+         matchMedia('(display-mode: fullscreen)').matches ||
+         navigator.standalone === true;
+}
+
+let convite = null;
+
+window.addEventListener('beforeinstallprompt', ev => {
+  ev.preventDefault();
+  convite = ev;
+  el.instalar.hidden = jaInstalado();
+});
+
+window.addEventListener('appinstalled', () => {
+  convite = null;
+  el.instalar.hidden = true;
+  avisar('App instalado. Abra pelo ícone na tela inicial.');
+});
+
+el.instalar.addEventListener('click', async () => {
+  if (convite) {
+    convite.prompt();
+    const escolha = await convite.userChoice;
+    convite = null;
+    if (escolha && escolha.outcome === 'accepted') el.instalar.hidden = true;
+    return;
+  }
+  if (noIphone) el.passosAndroid.before(el.passosIos);
+  abrirJanela(el.ajudaInstalar);
+});
+
+el.fecharInstalar.addEventListener('click', () => fecharJanela(el.ajudaInstalar));
+el.ajudaInstalar.addEventListener('click', ev => {
+  if (ev.target === el.ajudaInstalar) fecharJanela(el.ajudaInstalar);
+});
+
 /* Pede ao navegador para tratar o armazenamento como permanente: sem isso ele
    pode descartar os dados do site quando o aparelho fica sem espaço, e no iPhone
    depois de uma semana sem uso. Adicionar o app à tela de início ajuda também. */
@@ -1405,6 +1455,7 @@ if ('serviceWorker' in navigator) {
 aplicarTema(temaAtual());
 if (el.versao) el.versao.textContent = 'Versão ' + VERSAO + ' · ' + VERSAO_DATA;
 if (el.versaoRodape) el.versaoRodape.textContent = 'v' + VERSAO;
+el.instalar.hidden = jaInstalado();
 montarGrupos();
 nomearGrupo();
 document.documentElement.classList.toggle('datas-visiveis', !comecaPeloDia());

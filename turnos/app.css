@@ -68,7 +68,16 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
 }
 .topo h1 { font-size: 22px; }
 .subtitulo { margin: 2px 0 0; font-size: 13px; color: var(--texto-fraco); }
-.canto { display: flex; gap: 8px; }
+.canto { display: flex; align-items: center; gap: 8px; }
+.instalar {
+  padding: 8px 14px;
+  font-size: 14px;
+  background: var(--acento);
+  border-color: var(--acento);
+  color: #201400;
+}
+.instalar:hover { filter: brightness(1.06); }
+.instalar-nota { padding-top: 10px; border-top: 1px solid var(--borda); }
 .info {
   appearance: none;
   width: 36px;
@@ -405,6 +414,7 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
 /* ——— telas estreitas ——— */
 @media (max-width: 620px) {
   .topo h1 { font-size: 19px; }
+  .instalar { padding: 7px 11px; font-size: 13px; }
   .meu { flex-wrap: wrap; }
   .rolagem { overflow: visible; }
 }

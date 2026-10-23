@@ -128,9 +128,11 @@ Como não há servidor, a tabela viaja em arquivo:
 
 ## Instalar no celular
 
-No Android, abra no Chrome e use **Instalar app** no menu do navegador. No iPhone
-e no iPad, abra **no Safari** e use **Compartilhar → Adicionar à Tela de Início**.
-Instalado, abre em tela cheia e funciona sem internet.
+O botão **Instalar**, no alto da página, resolve: no Android ele chama direto o
+convite do Chrome; no iPhone, onde o navegador não oferece convite nenhum, ele abre
+o passo a passo do Safari (**Compartilhar → Adicionar à Tela de Início** — e tem de
+ser o Safari, o Chrome do iPhone não instala sites). Instalado, o app abre em tela
+cheia e funciona sem internet, e o botão some.
 
 ## Publicar
 
@@ -181,8 +183,8 @@ Turnos (INB).
 
 ## Versão
 
-A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **2.4.0**. O mesmo
-número vai no endereço do CSS e do JavaScript (`app.js?v=2.4.0`) e no nome do cache do
+A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **2.5.0**. O mesmo
+número vai no endereço do CSS e do JavaScript (`app.js?v=2.5.0`) e no nome do cache do
 service worker, então cada versão nova chega inteira ao aparelho, sem sobra da
 anterior. Ao mexer no app, suba o número nos três lugares: `VERSAO` no `app.js`,
 `VERSAO` no `sw.js` e o `?v=` no `index.html`.

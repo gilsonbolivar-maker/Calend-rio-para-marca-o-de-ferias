@@ -6,7 +6,7 @@
 
 (() => {
 
-const VERSAO = '1.3.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
+const VERSAO = '1.4.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
 const VERSAO_DATA = '23/10/2026';
 
 const CHAVE_TURNO = 'escala-turnos:meu';
@@ -120,6 +120,11 @@ const el = {
   irHoje: $('btn-hoje'),
   quadro: $('quadro'),
   tema: $('btn-tema'),
+  instalar: $('btn-instalar'),
+  ajudaInstalar: $('ajuda-instalar'),
+  passosAndroid: $('passos-android'),
+  passosIos: $('passos-ios'),
+  fecharInstalar: $('btn-fechar-instalar'),
   info: $('btn-info'),
   sobre: $('sobre'),
   fecharSobre: $('btn-fechar-sobre'),
@@ -469,6 +474,64 @@ el.info.addEventListener('click', () => abrir(el.sobre));
 el.fecharSobre.addEventListener('click', () => fechar(el.sobre));
 el.sobre.addEventListener('click', ev => { if (ev.target === el.sobre) fechar(el.sobre); });
 
+/* ————————————————— aviso rápido ————————————————— */
+
+let temporizadorAviso = 0;
+
+function avisar(texto) {
+  el.toast.textContent = texto;
+  el.toast.hidden = false;
+  clearTimeout(temporizadorAviso);
+  temporizadorAviso = setTimeout(() => { el.toast.hidden = true; }, 3200);
+}
+
+/* ————————————————— instalar no aparelho ————————————————— */
+
+/* O iPhone não dispara o convite de instalação: lá o caminho é o menu
+   Compartilhar do Safari. Por isso o botão é nosso e sempre aparece —
+   com o convite do navegador quando existe, com o passo a passo quando não. */
+const noIphone = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+function jaInstalado() {
+  return matchMedia('(display-mode: standalone)').matches ||
+         matchMedia('(display-mode: fullscreen)').matches ||
+         navigator.standalone === true;
+}
+
+let convite = null;
+
+window.addEventListener('beforeinstallprompt', ev => {
+  ev.preventDefault();
+  convite = ev;
+  el.instalar.hidden = jaInstalado();
+});
+
+window.addEventListener('appinstalled', () => {
+  convite = null;
+  el.instalar.hidden = true;
+  avisar('App instalado. Abra pelo ícone na tela inicial.');
+});
+
+el.instalar.addEventListener('click', async () => {
+  if (convite) {
+    convite.prompt();
+    const escolha = await convite.userChoice;
+    convite = null;
+    if (escolha && escolha.outcome === 'accepted') el.instalar.hidden = true;
+    return;
+  }
+  /* Sem convite do navegador: o caminho do aparelho em uso vem primeiro,
+     logo abaixo do título. */
+  if (noIphone) el.passosAndroid.before(el.passosIos);
+  abrir(el.ajudaInstalar);
+});
+
+el.fecharInstalar.addEventListener('click', () => fechar(el.ajudaInstalar));
+el.ajudaInstalar.addEventListener('click', ev => {
+  if (ev.target === el.ajudaInstalar) fechar(el.ajudaInstalar);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => { /* http:// local */ });
@@ -479,6 +542,7 @@ if ('serviceWorker' in navigator) {
 
 aplicarTema(temaAtual());
 mostrarVersao();
+el.instalar.hidden = jaInstalado();
 montarTurnos();
 mostrarHoje();
 montarQuadro();

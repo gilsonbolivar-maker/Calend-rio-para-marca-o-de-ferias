@@ -3,7 +3,7 @@
    ———————————————————————————————————————————————————————————— */
 'use strict';
 
-const VERSAO = '2.4.0';
+const VERSAO = '2.5.0';
 const CACHE = 'escala-de-ferias-' + VERSAO;
 
 const ARQUIVOS = [
