@@ -342,6 +342,7 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
 .sobre b { color: var(--texto); }
 .sobre-credito { margin: 6px 0 14px !important; font-size: 15px !important; color: var(--texto) !important; }
 .sobre-credito b { color: var(--acento); }
+.sobre-versao { padding-top: 12px; border-top: 1px solid var(--borda); font-size: 12px !important; }
 
 /* ——— aviso ——— */
 .aviso {

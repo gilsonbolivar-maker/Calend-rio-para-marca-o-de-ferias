@@ -3,7 +3,7 @@
    ———————————————————————————————————————————————————————————— */
 'use strict';
 
-const VERSAO = 'v1';
+const VERSAO = 'v3';
 const CACHE = 'escala-de-ferias-' + VERSAO;
 
 const ARQUIVOS = [
@@ -37,13 +37,21 @@ self.addEventListener('activate', ev => {
   );
 });
 
-/* Rede primeiro para pegar versão nova; cache quando não há sinal. */
+/* Rede primeiro para pegar versão nova; cache quando não há sinal.
+   O 'no-cache' obriga o navegador a conferir com o servidor em vez de servir
+   o arquivo guardado dele — sem isso, uma atualização demora a aparecer. */
 self.addEventListener('fetch', ev => {
   const pedido = ev.request;
   if (pedido.method !== 'GET' || new URL(pedido.url).origin !== location.origin) return;
 
+  const fresco = new Request(pedido.url, {
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    redirect: 'follow'
+  });
+
   ev.respondWith(
-    fetch(pedido)
+    fetch(fresco)
       .then(resposta => {
         if (resposta && resposta.ok) {
           const copia = resposta.clone();
