@@ -239,6 +239,66 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
 .cel.feriado { box-shadow: inset 0 0 0 2px var(--feriado); }
 .linha.meu .cel { height: 38px; font-size: 12px; }
 
+/* ——— lista vertical (celular) ——— */
+.quadro.vertical { min-width: 0; padding: 10px 12px 12px; }
+
+.cabeca-dias, .dia-linha {
+  display: grid;
+  grid-template-columns: 86px repeat(5, 1fr);
+  gap: 5px;
+  align-items: center;
+}
+.cabeca-dias {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 6px 0 8px;
+  background: var(--superficie);
+}
+.cabeca-dias i {
+  font-style: normal;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--texto-fraco);
+}
+.cabeca-dias i.meu { color: var(--acento); }
+
+.dia-linha {
+  padding: 3px 0;
+  border-top: 1px solid var(--borda);
+}
+.dia-linha.fds .dia-rotulo b { color: var(--texto-fraco); }
+.dia-linha.hoje {
+  background: var(--superficie-alta);
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px var(--acento);
+  padding: 4px 6px;
+  margin: 2px -6px;
+  border-top-color: transparent;
+}
+.dia-linha.feriado .dia-rotulo b { color: var(--feriado); }
+
+.dia-rotulo { display: flex; align-items: baseline; gap: 5px; flex-wrap: wrap; min-width: 0; }
+.dia-rotulo b { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.dia-rotulo i { font-style: normal; font-size: 12px; color: var(--texto-fraco); }
+.dia-rotulo u {
+  flex-basis: 100%;
+  margin-top: -2px;
+  font-size: 9.5px;
+  text-decoration: none;
+  color: var(--feriado);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.quadro.vertical .cel {
+  height: 32px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+.quadro.vertical .cel.meu { box-shadow: inset 0 0 0 2px var(--acento); }
+
 /* ——— legenda e rodapé ——— */
 .legenda {
   display: flex;
@@ -301,10 +361,9 @@ h1, h2 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
 
 /* ——— telas estreitas ——— */
 @media (max-width: 620px) {
-  :root { --coluna: 74px; }
   .topo h1 { font-size: 19px; }
-  .quadro { min-width: 880px; }   /* células legíveis; o mês desliza para o lado */
   .meu { flex-wrap: wrap; }
+  .rolagem { overflow: visible; }
 }
 
 /* ——— impressão ——— */

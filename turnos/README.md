@@ -18,9 +18,13 @@ sem servidor. Depois da primeira visita ela abre offline.
   também — o nome aparece ao tocar ou passar o mouse.
 - Ao lado de cada equipe, quantos dias de trabalho ela tem naquele mês.
 
+No **celular o quadro fica em pé**: uma linha por dia, com as cinco equipes lado a
+lado — sem precisar arrastar para o lado. Em tela larga ele vira deitado, uma linha
+por equipe e um dia por coluna, e abre já centralizado no dia de hoje. Girar o
+aparelho troca o desenho sozinho.
+
 Para mudar de mês: as setas **‹ ›**, o botão **Hoje**, as setas do teclado ou um
-arraste para o lado no celular. Em tela estreita o quadro desliza e já abre
-mostrando o dia de hoje.
+arraste para o lado.
 
 ## A escala
 

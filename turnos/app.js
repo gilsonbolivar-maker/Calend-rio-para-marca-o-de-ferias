@@ -207,21 +207,72 @@ function mostrarHoje() {
 
 /* ————————————————— quadro do mês ————————————————— */
 
-function montarQuadro() {
-  const ano = mes.getFullYear();
-  const numero = mes.getMonth();
-  el.mesNome.textContent = MESES[numero] + ' de ' + ano;
+/* Em tela estreita o mês vira uma lista vertical: um dia por linha, cinco
+   colunas de equipe. Em tela larga, uma linha por equipe e um dia por coluna. */
+const estreito = matchMedia('(max-width: 620px)');
 
+function diasDoMes() {
   const dias = [];
-  const passo = new Date(ano, numero, 1);
-  while (passo.getMonth() === numero) {
+  const passo = new Date(mes.getFullYear(), mes.getMonth(), 1);
+  while (passo.getMonth() === mes.getMonth()) {
     dias.push(new Date(passo));
     passo.setDate(passo.getDate() + 1);
   }
+  return dias;
+}
 
+function montarQuadro() {
+  el.mesNome.textContent = MESES[mes.getMonth()] + ' de ' + mes.getFullYear();
   el.quadro.textContent = '';
-  el.quadro.style.setProperty('--dias', dias.length);
+  el.quadro.classList.toggle('vertical', estreito.matches);
+  if (estreito.matches) montarLista();
+  else montarGrade();
+}
 
+/* ——— lista vertical, para o celular ——— */
+function montarLista() {
+  const cabecalho = document.createElement('div');
+  cabecalho.className = 'cabeca-dias';
+  cabecalho.append(document.createElement('span'));
+  TURNOS.forEach(equipe => {
+    const letra = document.createElement('i');
+    letra.textContent = equipe;
+    if (equipe === meuTurno) letra.className = 'meu';
+    cabecalho.append(letra);
+  });
+  el.quadro.append(cabecalho);
+
+  diasDoMes().forEach(d => {
+    const feriado = feriadoDe(d);
+    const linha = document.createElement('div');
+    linha.className = 'dia-linha' + (distancia(hoje, d) === 0 ? ' hoje' : '') +
+      (d.getDay() === 0 || d.getDay() === 6 ? ' fds' : '') + (feriado ? ' feriado' : '');
+
+    const rotulo = document.createElement('span');
+    rotulo.className = 'dia-rotulo';
+    rotulo.innerHTML = '<b>' + d.getDate() + '</b> <i>' + SEMANA_INTEIRO[d.getDay()].slice(0, 3) + '</i>' +
+      (feriado ? '<u>' + feriado.replace(' (ponto facultativo)', '') + '</u>' : '');
+    if (feriado) rotulo.title = feriado;
+    linha.append(rotulo);
+
+    TURNOS.forEach(equipe => {
+      const turno = turnoDe(d, equipe);
+      const cel = document.createElement('span');
+      cel.className = 'cel' + (turno === 'F' ? '' : ' t' + turno) +
+        (equipe === meuTurno ? ' meu' : '');
+      cel.textContent = turno === 'F' ? '' : turno.padStart(2, '0') + 'h';
+      cel.title = dataBr(d) + ' · Turno ' + equipe + ' · ' +
+        (turno === 'F' ? 'folga' : 'entra às ' + comoHora(turno));
+      linha.append(cel);
+    });
+
+    el.quadro.append(linha);
+  });
+}
+
+/* ——— grade larga, para telas maiores ——— */
+function montarGrade() {
+  const dias = diasDoMes();
   const colunas = 'repeat(' + dias.length + ', 1fr)';
 
   const cabecalho = document.createElement('div');
@@ -271,7 +322,7 @@ function montarQuadro() {
   centralizarHoje(dias);
 }
 
-/* Em tela estreita o mês não cabe inteiro: abre já mostrando o dia de hoje. */
+/* Quando o mês não cabe inteiro, abre já mostrando o dia de hoje. */
 function centralizarHoje(dias) {
   const rolagem = el.quadro.parentElement;
   const dentro = dias.some(d => distancia(hoje, d) === 0);
@@ -329,6 +380,9 @@ el.quadro.addEventListener('touchend', ev => {
     andarMes(andou < 0 ? 1 : -1);
   }
 }, { passive: true });
+
+/* Girar o celular ou mudar a janela troca o desenho. */
+estreito.addEventListener('change', montarQuadro);
 
 document.addEventListener('keydown', ev => {
   if (ev.key === 'ArrowLeft') andarMes(-1);
