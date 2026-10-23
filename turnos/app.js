@@ -6,6 +6,9 @@
 
 (() => {
 
+const VERSAO = '1.2.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
+const VERSAO_DATA = '23/10/2026';
+
 const CHAVE_TURNO = 'escala-turnos:meu';
 const CHAVE_TEMA = 'escala-turnos:tema';
 
@@ -120,8 +123,16 @@ const el = {
   info: $('btn-info'),
   sobre: $('sobre'),
   fecharSobre: $('btn-fechar-sobre'),
-  toast: $('toast')
+  toast: $('toast'),
+  versao: $('versao'),
+  versaoRodape: $('versao-rodape')
 };
+
+function mostrarVersao() {
+  const texto = 'Versão ' + VERSAO + ' · ' + VERSAO_DATA;
+  if (el.versao) el.versao.textContent = texto;
+  if (el.versaoRodape) el.versaoRodape.textContent = 'v' + VERSAO;
+}
 
 /* Diferença em dias inteiros, sem depender de hora nem de fuso. */
 function distancia(a, b) {
@@ -425,6 +436,7 @@ if ('serviceWorker' in navigator) {
 /* ————————————————— arranque ————————————————— */
 
 aplicarTema(temaAtual());
+mostrarVersao();
 montarTurnos();
 mostrarHoje();
 montarQuadro();

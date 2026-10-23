@@ -654,6 +654,11 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   color: var(--texto) !important;
 }
 .sobre-credito b { color: var(--acento); }
+.sobre-versao {
+  padding-top: 12px;
+  border-top: 1px solid var(--borda);
+  font-size: 12px !important;
+}
 
 .dia-turno { margin: 4px 0 10px !important; }
 .dia-limite {

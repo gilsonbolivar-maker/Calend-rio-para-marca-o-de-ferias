@@ -178,3 +178,11 @@ página, e no pé da tabela impressa.
 
 A escala de turnos usada para marcar as folgas do Grupo A vem do app Escala de
 Turnos (INB).
+
+## Versão
+
+A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **2.4.0**. O mesmo
+número vai no endereço do CSS e do JavaScript (`app.js?v=2.4.0`) e no nome do cache do
+service worker, então cada versão nova chega inteira ao aparelho, sem sobra da
+anterior. Ao mexer no app, suba o número nos três lugares: `VERSAO` no `app.js`,
+`VERSAO` no `sw.js` e o `?v=` no `index.html`.

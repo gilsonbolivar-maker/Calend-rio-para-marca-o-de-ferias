@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icones/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" sizes="180x180" href="icones/icone-180.png">
-<link rel="stylesheet" href="app.css?v=20261023a">
+<link rel="stylesheet" href="app.css?v=2.4.0">
 <script>
   /* Aplica o tema salvo antes da primeira pintura; sem isto a tela pisca. */
   (() => {
@@ -70,6 +70,7 @@
     ou <b>Salvar PDF</b>.</p>
   <p>Para ver os dias de trabalho e folga de todas as equipes, mês a mês, abra a
     <a href="turnos/">Escala de Turnos</a>.</p>
+  <p class="sobre-versao" id="versao">—</p>
   <button class="botao principal largo" id="btn-fechar-sobre" type="button">Entendi</button>
 </dialog>
 
@@ -187,10 +188,11 @@
   </li>
 </template>
 
-<p class="credito"><a href="turnos/">Escala de Turnos</a> · Desenvolvido por Gilson Bolivar</p>
+<p class="credito"><a href="turnos/">Escala de Turnos</a> · Desenvolvido por Gilson Bolivar
+  · <span id="versao-rodape"></span></p>
 
 <div class="aviso" id="toast" hidden></div>
 
-<script src="app.js?v=20261023a"></script>
+<script src="app.js?v=2.4.0"></script>
 </body>
 </html>

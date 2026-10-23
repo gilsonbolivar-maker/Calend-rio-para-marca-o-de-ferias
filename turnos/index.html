@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icones/icone-192.png" sizes="192x192">
 <link rel="apple-touch-icon" sizes="180x180" href="icones/icone-180.png">
-<link rel="stylesheet" href="app.css?v=20261023b">
+<link rel="stylesheet" href="app.css?v=1.2.0">
 <script>
   /* Tema aplicado antes da primeira pintura, para a tela não piscar. */
   (() => {
@@ -76,6 +76,7 @@
 
   <p class="rodape">
     <a href="../">Tabela para marcação de férias</a> · Desenvolvido por Gilson Bolivar
+    · <span id="versao-rodape"></span>
   </p>
 
 </main>
@@ -89,12 +90,12 @@
     isso o app funciona para qualquer mês, passado ou futuro, sem precisar de internet.</p>
   <p>O turno escolhido e o tema ficam guardados neste aparelho. Nada é enviado para
     lugar nenhum.</p>
-  <p class="sobre-versao">Versão de 23/10/2026</p>
+  <p class="sobre-versao" id="versao">—</p>
   <button class="botao principal largo" id="btn-fechar-sobre" type="button">Entendi</button>
 </dialog>
 
 <div class="aviso" id="toast" hidden></div>
 
-<script src="app.js?v=20261023b"></script>
+<script src="app.js?v=1.2.0"></script>
 </body>
 </html>

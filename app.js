@@ -6,6 +6,9 @@
 
 (() => {
 
+const VERSAO = '2.4.0';          /* mesma etiqueta do endereço dos arquivos e do cache */
+const VERSAO_DATA = '23/10/2026';
+
 const CHAVE_DADOS = 'escala-ferias:grupos';
 const CHAVE_ANO = 'escala-ferias:ano';
 const CHAVE_TEMA = 'escala-ferias:tema';
@@ -102,6 +105,8 @@ const el = {
   faixas: $('faixas'),
   anoVazio: $('ano-vazio'),
   toast: $('toast'),
+  versao: $('versao'),
+  versaoRodape: $('versao-rodape'),
   modeloPessoa: $('modelo-pessoa'),
   modeloPeriodo: $('modelo-periodo')
 };
@@ -1398,6 +1403,8 @@ if ('serviceWorker' in navigator) {
 /* ————————————————— arranque ————————————————— */
 
 aplicarTema(temaAtual());
+if (el.versao) el.versao.textContent = 'Versão ' + VERSAO + ' · ' + VERSAO_DATA;
+if (el.versaoRodape) el.versaoRodape.textContent = 'v' + VERSAO;
 montarGrupos();
 nomearGrupo();
 document.documentElement.classList.toggle('datas-visiveis', !comecaPeloDia());

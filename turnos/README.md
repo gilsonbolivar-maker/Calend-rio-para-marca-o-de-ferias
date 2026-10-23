@@ -52,3 +52,11 @@ sw.js                 service worker: abre sem rede
 manifest.webmanifest  dados de instalação do PWA
 icones/               ícones 180, 192, 512 e maskable
 ```
+
+## Versão
+
+A versão aparece no rodapé da página e na janela do **ⓘ** — hoje **1.2.0**. O mesmo
+número vai no endereço do CSS e do JavaScript (`app.js?v=1.2.0`) e no nome do cache do
+service worker, então cada versão nova chega inteira ao aparelho, sem sobra da
+anterior. Ao mexer no app, suba o número nos três lugares: `VERSAO` no `app.js`,
+`VERSAO` no `sw.js` e o `?v=` no `index.html`.
