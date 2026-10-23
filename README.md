@@ -166,6 +166,11 @@ icones/               ícones 180, 192, 512 e maskable
 Nada aqui é gerado por ferramenta: os arquivos do repositório são exatamente os
 que o navegador recebe.
 
+## Escala de Turnos
+
+Na pasta [`turnos/`](turnos/) mora um segundo app, com os dias de trabalho e folga
+das cinco equipes mês a mês: <https://gilsonbolivar-maker.github.io/Calend-rio-para-marca-o-de-ferias/turnos/>
+
 ## Créditos
 
 Desenvolvido por **Gilson Bolivar**. O crédito aparece no botão **ⓘ**, no alto da

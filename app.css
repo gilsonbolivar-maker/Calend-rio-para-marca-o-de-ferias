@@ -685,6 +685,7 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
 .confirmar-acoes .botao { flex: 1; }
 
 /* crédito discreto no pé — na tela e no papel */
+.credito a { color: var(--acento); }
 .credito {
   max-width: 980px;
   margin: 0 auto;
@@ -800,7 +801,8 @@ h1, h2 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
   .destaque { display: none !important; }
   h1 span { color: var(--texto); background: none; border: 0; }
   .supervisor input { border-color: transparent; padding-left: 2px; }
-  .credito { padding: 12px 0 0; border-top: 1px solid var(--borda); }
+  .credito a { color: var(--acento); }
+.credito { padding: 12px 0 0; border-top: 1px solid var(--borda); }
   .folha { max-width: none; padding: 0; }
   .topo { padding: 0 0 10px; }
   .pessoa, .coincidencias li, .trilho { break-inside: avoid; }

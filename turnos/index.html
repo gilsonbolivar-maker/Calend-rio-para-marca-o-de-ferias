@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Escala de Turnos — A a E</title>
+<meta name="description" content="Dias de trabalho e folga dos turnos A a E, mês a mês, com a hora de início de cada turno.">
+<meta name="theme-color" content="#0b1220">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Turnos">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icones/icone-192.png" sizes="192x192">
+<link rel="apple-touch-icon" sizes="180x180" href="icones/icone-180.png">
+<link rel="stylesheet" href="app.css">
+<script>
+  /* Tema aplicado antes da primeira pintura, para a tela não piscar. */
+  (() => {
+    let tema;
+    try { tema = localStorage.getItem('escala-turnos:tema'); } catch (e) { /* modo privado */ }
+    if (tema !== 'claro' && tema !== 'escuro') {
+      tema = matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'escuro';
+    }
+    document.documentElement.dataset.tema = tema;
+  })();
+</script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="titulo">
+    <h1>Escala de Turnos</h1>
+    <p class="subtitulo">Turnos A a E — ciclo de 35 dias</p>
+  </div>
+  <div class="canto">
+    <button class="info" id="btn-tema" type="button" title="Trocar tema" aria-label="Trocar entre tema claro e escuro">◐</button>
+    <button class="info" id="btn-info" type="button" title="Sobre o app" aria-label="Sobre o app">i</button>
+  </div>
+</header>
+
+<main class="folha">
+
+  <!-- ————————————————— hoje ————————————————— -->
+  <section class="hoje-painel">
+    <p class="hoje-data" id="hoje-data">—</p>
+    <div class="hoje-turnos" id="hoje-turnos"></div>
+    <p class="hoje-proximos" id="hoje-proximos" hidden></p>
+  </section>
+
+  <!-- ————————————————— escolha do turno ————————————————— -->
+  <section class="meu">
+    <span>Meu turno</span>
+    <div class="grupos" id="grupos" role="group" aria-label="Escolha o seu turno"></div>
+  </section>
+
+  <!-- ————————————————— mês ————————————————— -->
+  <section class="mes-barra">
+    <button class="botao discreto" id="btn-anterior" type="button" aria-label="Mês anterior">‹</button>
+    <h2 id="mes-nome">—</h2>
+    <button class="botao discreto" id="btn-proximo" type="button" aria-label="Próximo mês">›</button>
+    <button class="botao discreto" id="btn-hoje" type="button">Hoje</button>
+  </section>
+
+  <div class="rolagem">
+    <div class="quadro" id="quadro"></div>
+  </div>
+
+  <p class="legenda">
+    <span><b class="amostra t0"></b> turno 00h</span>
+    <span><b class="amostra t8"></b> turno 08h</span>
+    <span><b class="amostra t16"></b> turno 16h</span>
+    <span><b class="amostra folga"></b> folga</span>
+    <span><b class="amostra feriado-amostra"></b> feriado</span>
+  </p>
+
+  <p class="rodape">
+    <a href="../">Tabela para marcação de férias</a> · Desenvolvido por Gilson Bolivar
+  </p>
+
+</main>
+
+<dialog class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+  <h2 id="sobre-titulo">Escala de Turnos</h2>
+  <p class="sobre-credito">Desenvolvido por <b>Gilson Bolivar</b></p>
+  <p>Mostra os dias de trabalho e de folga dos turnos <b>A a E</b>, mês a mês, com a hora
+    em que cada turno começa. Três equipes trabalham por dia e duas folgam.</p>
+  <p>O ciclo tem <b>35 dias</b> e se repete sem fim, contado a partir de 02/08/2026 — por
+    isso o app funciona para qualquer mês, passado ou futuro, sem precisar de internet.</p>
+  <p>O turno escolhido e o tema ficam guardados neste aparelho. Nada é enviado para
+    lugar nenhum.</p>
+  <button class="botao principal largo" id="btn-fechar-sobre" type="button">Entendi</button>
+</dialog>
+
+<div class="aviso" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
