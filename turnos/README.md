@@ -14,8 +14,8 @@ sem servidor. Depois da primeira visita ela abre offline.
   no quadro e aparece a conta do que vem pela frente — *"hoje é folga. Próximos:
   24/10 00h · 25/10 00h…"*. Tocar de novo no mesmo botão desmarca.
 - **Quadro do mês**: uma linha por equipe, uma coluna por dia, com o número da hora
-  dentro do quadrado. Vazio é folga. O dia de hoje fica contornado, e os **feriados**
-  também — o nome aparece ao tocar ou passar o mouse.
+  dentro do quadrado. Vazio é folga. O dia de hoje fica contornado em **vermelho** e os
+  **feriados** em **verde** — o nome aparece ao tocar ou passar o mouse.
 - Ao lado de cada equipe, quantos dias de trabalho ela tem naquele mês.
 
 No **celular o quadro fica em pé**: uma linha por dia, com as cinco equipes lado a
